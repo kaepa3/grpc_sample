@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package sample.data;
+
+option go_package = "gen/api";
+
+service SampleReturnService{
+    rpc Report(SampleRequest) returns (SampleResponse){}
+}
+
+
+message Sample{
+    enum Test{
+       UNKNOWN = 0;
+       Test1 = 1;
+    }
+    string name = 1;
+}
+
+
+
+message SampleRequest{
+    Sample.Test data = 1;
+}
+
+message SampleResponse {
+    Sample sp = 1;
+}
