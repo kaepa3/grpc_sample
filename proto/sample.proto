@@ -17,8 +17,6 @@ message Sample{
     string name = 1;
 }
 
-
-
 message SampleRequest{
     Sample.Test data = 1;
 }
