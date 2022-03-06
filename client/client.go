@@ -9,6 +9,7 @@ import (
 
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
 )
 
 type TestClient struct {
@@ -29,8 +30,11 @@ func (r *TestClient) Run() int {
 	return 0
 }
 func (t *TestClient) run() error {
-	ctx, cancel := context.WithCancel(context.Background())
+	bctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+
+	md := metadata.New(map[string]string{"authorization": "Bearer testtoken"})
+	ctx := metadata.NewOutgoingContext(bctx, md)
 
 	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
 	if err != nil {

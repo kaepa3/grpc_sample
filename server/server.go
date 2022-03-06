@@ -1,6 +1,8 @@
 package main
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"log"
 	"net"
@@ -10,6 +12,7 @@ import (
 	"sample/gen/api"
 	"sample/handler"
 
+	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -20,7 +23,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	server := grpc.NewServer()
+	authInterceptor := grpc.UnaryInterceptor(grpc_auth.UnaryServerInterceptor(authenticate))
+	server := grpc.NewServer(authInterceptor)
 	api.RegisterSampleReturnServiceServer(
 		server,
 		handler.NewSampleHandler(),
@@ -38,4 +42,15 @@ func main() {
 	log.Println("stopping gRPC server...")
 	server.GracefulStop()
 
+}
+
+func authenticate(ctx context.Context) (context.Context, error) {
+	token, err := grpc_auth.AuthFromMD(ctx, "Bearer")
+	if err != nil {
+		return nil, err
+	}
+	if token != "testtoken" {
+		return nil, errors.New("unauthorized")
+	}
+	return ctx, nil
 }
