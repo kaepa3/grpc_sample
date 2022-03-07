@@ -1,18 +1,18 @@
 import { createStore } from 'redux'
 
-const initialState = {
+const initialState: StoreTest = {
   count: 12,
   names: ['person', 'human']
 };
 
 
-export interface IStore {
+export type StoreTest = {
   count: number;
   names: string[]
 }
 
 
-const reducer = (state = initialState) => {
+const reducer = (state: StoreTest = initialState) => {
   return state
 }
 

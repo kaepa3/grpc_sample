@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect, useSelector} from 'react-redux'
+import { StoreTest } from './Store'
 
 type Props = {
   text: string
@@ -13,14 +14,13 @@ export const Sample: React.FC<Props> = ({ children, text }) => (
 );
 
 function SampleClass() {
-  const count = useSelector((state: any) => state.count)
-  const posts = useSelector((state: any) => state.names)
+  const storeData = useSelector((state: StoreTest) => state)
   return (
     <div>
-      "class return":{count};
+      "class return":{storeData.count};
       <ul>
-        {posts.map((post: string) => (
-          <li>{post}</li>
+        {storeData.names.map((name: string) => (
+          <li>{name}</li>
         ))}
       </ul>
     </div>
