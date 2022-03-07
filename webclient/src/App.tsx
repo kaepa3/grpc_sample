@@ -1,9 +1,14 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import SampleClass, {Sample} from './Sample';
+import SampleClass, { Sample } from './Sample';
+import store from "./store"
+import { connect, useSelector } from "react-redux"
+import IStore from './store'
 
 function App() {
+  const selector = useSelector((state: any) => state)
+  const count = selector.count
   return (
     <div className="App">
       <header className="App-header">
@@ -11,7 +16,9 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload. now
         </p>
-        <Sample text="asfd" ></Sample>
+        <Sample text="asfd" >
+          <button>ok</button>
+        </Sample>
         <SampleClass></SampleClass>
         <a
           className="App-link"
@@ -21,9 +28,11 @@ function App() {
         >
           Learn React
         </a>
+        <p>Count:{count}</p>
       </header>
     </div>
   );
 }
 
 export default App;
+
