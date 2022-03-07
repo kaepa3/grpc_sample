@@ -2,13 +2,13 @@ import { createStore } from 'redux'
 
 const initialState = {
   count: 12,
-  names:[ 'person','human' ]
+  names: ['person', 'human']
 };
 
 
-export interface IStore{
+export interface IStore {
   count: number;
-  name: string[]
+  names: string[]
 }
 
 
